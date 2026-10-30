@@ -20,5 +20,12 @@ export default defineConfig({
       subsets: ["latin"],
     },
   ],
-  integrations: [sitemap()],
+  site: "https://kevinstoop.com",
+  integrations: [
+    sitemap({
+      changefreq: "monthly",
+      priority: 1,
+      lastmod: new Date(),
+    }),
+  ],
 });
