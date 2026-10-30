@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.14 0.02 260);
+  --muted: oklch(0.45 0.02 260);
+  --primary: oklch(0.45 0.15 260);
+  --primary-foreground: oklch(1 0 0);
+  --border: oklch(0.88 0.01 260);
+
+  --head-top: 52px;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --head-top: clamp(64px, 12vh, 118px);
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-inter);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-border: var(--border);
+}
+
+@layer base {
+  ::selection {
+    @apply bg-primary/10 text-primary;
+  }
+
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-muted, currentColor);
+  }
+
+  * {
+    @apply border-border outline-primary/50;
+  }
+
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-sans);
+    --font-settings: "cv01", "ss03";
+    font-feature-settings: var(--font-settings);
+    --font-variations: "opsz" auto;
+    font-variation-settings: var(--font-variations);
+    font-family: var(--font-sans);
+    -webkit-tap-highlight-color: transparent;
+    font-optical-sizing: auto;
+    text-rendering: optimizelegibility;
+    -webkit-text-size-adjust: none;
+    color: var(--foreground);
+    background-color: var(--background);
+    position: relative;
+  }
+}
+
+@utility wght-* {
+  font-variation-settings: "wght" --value(integer);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-fade] {
+    animation: fade-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+
+  [data-fade][data-fade-kind="body"] {
+    animation-name: fade-rise-body;
+    animation-duration: 900ms;
+  }
+
+  main > [data-fade] {
+    animation-delay: calc(60ms + (sibling-index() - 1) * 90ms);
+  }
+
+  footer[data-fade] {
+    animation-delay: calc(60ms + var(--fade-count) * 90ms);
+  }
+
+  @keyframes fade-rise {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+      filter: blur(3px);
+    }
+  }
+
+  @keyframes fade-rise-body {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+      filter: blur(6px);
+    }
+  }
+}

@@ -1,0 +1,32 @@
+<script is:inline>
+  const main = document.querySelector("main");
+  main.parentElement.style.setProperty("--fade-count", main.childElementCount);
+</script>
+<footer class="mt-auto flex items-center justify-between pt-19 text-[11px] text-muted" data-fade>
+  <div class="flex items-center gap-1.25">
+    <span class="inline-block size-1 animate-pulse rounded-full bg-muted" aria-hidden="true"></span>
+    <span class="invisible tabular-nums" data-local-time>
+      00:00:00 local
+    </span>
+  </div>
+  <span>Kevin Stoop</span>
+</footer>
+<script>
+  const el = document.querySelector("[data-local-time]");
+  if (el) {
+    const format = new Intl.DateTimeFormat("nl-NL", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hourCycle: "h23",
+    });
+
+    const tick = () => {
+      el.textContent = `${format.format(new Date())} local`;
+      el.classList.remove("invisible");
+      window.setTimeout(tick, 1000 - (Date.now() % 1000));
+    };
+
+    tick();
+  }
+</script>
