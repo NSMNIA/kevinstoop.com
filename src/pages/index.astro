@@ -1,147 +1,82 @@
 ---
-import { Font } from "astro:assets";
-import "../styles/global.css";
+import Page from "../layouts/page.astro";
 import IoIcon from "../icons/io.svg";
-import Footer from "../components/footer.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <Font cssVariable="--font-sans" preload={[{ style: "normal", subset: "latin" }]} />
-    <meta name="color-scheme" content="light" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Kevin Stoop</title>
-    <meta
-      name="description"
-      content="I'm Kevin, a software engineer passionate about frontend development, performance, and bringing thoughtful digital products and experiences to life."
-    />
-    <meta name="author" content="Kevin Stoop" />
-    <link rel="canonical" href="https://kevinstoop.com" />
-    <meta
-      name="googlebot"
-      content="index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"
-    />
-    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
-    <meta name="color-scheme" content="light" />
-
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.png" sizes="512x512" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-
-    <meta property="og:title" content="Kevin Stoop" />
-    <meta
-      property="og:description"
-      content="I'm Kevin, a software engineer passionate about frontend development, performance, and bringing thoughtful digital products and experiences to life."
-    />
-    <meta property="og:image" content="https://kevinstoop.com/favicon.png" />
-    <meta property="og:image:width" content="512" />
-    <meta property="og:image:height" content="512" />
-    <meta property="og:image:alt" content="Kevin Stoop — Software Engineer" />
-    <meta property="og:url" content="https://kevinstoop.com" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Kevin Stoop" />
-    <meta property="og:locale" content="en_US" />
-
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@kevinstoop_" />
-    <meta name="twitter:creator" content="@kevinstoop_" />
-
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Kevin Stoop",
-        "url": "https://kevinstoop.com",
-        "email": "hello@kevinstoop.com",
-        "jobTitle": "Software Engineer",
-        "sameAs": [
-          "https://github.com/NSMNIA/",
-          "https://www.linkedin.com/in/kevinstoop/",
-          "https://x.com/kevinstoop_"
-        ]
-      }
-    </script>
-  </head>
-  <body class="mx-auto flex min-h-screen max-w-140 flex-col px-[clamp(1.25rem,6vw,3.75rem)] pt-[calc(var(--head-top)+0.188rem)] pb-[clamp(1.75rem,5vh,2.75rem)]">
-    <main class="flex flex-col gap-4">
-      <h1 class="text-balance wght-500" data-fade>
-        Hi, I&apos;m Kevin.
-      </h1>
-      <p class="leading-relaxed text-pretty text-muted wght-450" data-fade data-fade-kind="body">
-        A software engineer who enjoys building thoughtful digital experiences, with a focus on
-        frontend development, performance, and the details that make an interface feel right.
-      </p>
-      <p class="leading-relaxed text-pretty text-muted wght-450" data-fade data-fade-kind="body">
-        I like turning ideas into polished products, making the web faster, and exploring how design
-        and engineering come together to create better experiences.
-      </p>
-      <p class="leading-relaxed text-pretty text-muted wght-450" data-fade data-fade-kind="body">
-        I work at{" "}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          class="relative inline-block text-foreground decoration-primary after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:bg-primary after:opacity-0 hover:after:opacity-100"
-          href="https://iodigital.com/"
-        >
-          <IoIcon aria-hidden="true" class="block-[1cap]" />
-          <span class="sr-only">iO</span>
-        </a>{" "}
-        and run{" "}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 text-foreground decoration-primary hover:underline hover:underline-offset-2"
-          href="https://revolveddesign.com/"
-        >
-          Revolved Design
-        </a>
-        , my own business focused on building digital products and websites.
-      </p>
-      <p class="leading-relaxed text-pretty text-muted wght-450" data-fade data-fade-kind="body">
-        One of the projects I've built through Revolved Design is{" "}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-foreground decoration-primary hover:underline hover:underline-offset-2"
-          href="https://tune-tracker.com"
-        >
-          Tune Tracker
-        </a>
-        , a music tracking platform for Spotify users.
-      </p>
-      <p class="leading-relaxed text-pretty text-muted wght-450" data-fade data-fade-kind="body">
-        My code is on{" "}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-foreground decoration-primary hover:underline hover:underline-offset-2"
-          href="https://github.com/NSMNIA/"
-        >
-          GitHub
-        </a>
-        , you can find me on{" "}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-foreground decoration-primary hover:underline hover:underline-offset-2"
-          href="https://www.linkedin.com/in/kevinstoop/"
-        >
-          LinkedIn
-        </a>
-        , and my inbox is open at{" "}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-foreground decoration-primary hover:underline hover:underline-offset-2"
-          href="mailto:hello@kevinstoop.com"
-        >
-          hello@kevinstoop.com
-        </a>
-        .
-      </p>
-    </main>
-    <Footer />
-  </body>
-</html>
+<Page>
+  <h1 class="text-balance wght-500" data-fade>
+    Hi, I&apos;m Kevin.
+  </h1>
+  <p class="leading-relaxed text-pretty text-muted wght-450" data-fade data-fade-kind="body">
+    A software engineer who enjoys building thoughtful digital experiences, with a focus on frontend
+    development, performance, and the details that make an interface feel right.
+  </p>
+  <p class="leading-relaxed text-pretty text-muted wght-450" data-fade data-fade-kind="body">
+    I like turning ideas into polished products, making the web faster, and exploring how design and
+    engineering come together to create better experiences.
+  </p>
+  <p class="leading-relaxed text-pretty text-muted wght-450" data-fade data-fade-kind="body">
+    I work at{" "}
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      class="relative inline-block text-foreground decoration-primary after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:bg-primary after:opacity-0 hover:after:opacity-100"
+      href="https://iodigital.com/"
+    >
+      <IoIcon aria-hidden="true" class="block-[1cap]" />
+      <span class="sr-only">iO</span>
+    </a>{" "}
+    and run{" "}
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-2 text-foreground decoration-primary hover:underline hover:underline-offset-2"
+      href="https://revolveddesign.com/"
+    >
+      Revolved Design
+    </a>
+    , my own business focused on building digital products and websites.
+  </p>
+  <p class="leading-relaxed text-pretty text-muted wght-450" data-fade data-fade-kind="body">
+    One of the projects I've built through Revolved Design is{" "}
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-foreground decoration-primary hover:underline hover:underline-offset-2"
+      href="https://tune-tracker.com"
+    >
+      Tune Tracker
+    </a>
+    , a music tracking platform for Spotify users.
+  </p>
+  <p class="leading-relaxed text-pretty text-muted wght-450" data-fade data-fade-kind="body">
+    My code is on{" "}
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-foreground decoration-primary hover:underline hover:underline-offset-2"
+      href="https://github.com/NSMNIA/"
+    >
+      GitHub
+    </a>
+    , you can find me on{" "}
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-foreground decoration-primary hover:underline hover:underline-offset-2"
+      href="https://www.linkedin.com/in/kevinstoop/"
+    >
+      LinkedIn
+    </a>
+    , and my inbox is open at{" "}
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-foreground decoration-primary hover:underline hover:underline-offset-2"
+      href="mailto:hello@kevinstoop.com"
+    >
+      hello@kevinstoop.com
+    </a>
+    .
+  </p>
+</Page>
