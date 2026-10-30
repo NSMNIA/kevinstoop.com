@@ -39,6 +39,7 @@ const {
     )}
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
     <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f7f8f8" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.png" sizes="512x512" />
@@ -82,7 +83,7 @@ const {
       }
     </script>
   </head>
-  <body class="mx-auto flex min-h-screen max-w-140 flex-col px-[clamp(1.25rem,6vw,3.75rem)] pt-[calc(var(--head-top)+0.188rem)] pb-[clamp(1.75rem,5vh,2.75rem)]">
+  <body class="mx-auto flex min-h-svh max-w-140 flex-col px-[clamp(1.25rem,6vw,3.75rem)] pt-[calc(var(--head-top)+0.188rem)] pb-[clamp(1.75rem,5vh,2.75rem)]">
     <main class="flex flex-col gap-4">
       <slot />
     </main>
