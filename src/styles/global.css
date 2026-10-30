@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark));
+
 :root {
   --background: oklch(97.837% 0.0011 202.716);
   --foreground: oklch(14.402% 0.0028 247.234);
@@ -8,7 +10,16 @@
   --primary-foreground: oklch(1 0 0);
   --border: oklch(14.402% 0.0028 247.234 / 7.8%);
 
-  --head-top: 52px;
+  --head-top: 3.25rem;
+}
+
+.dark {
+  --background: oklch(14.402% 0.0028 247.234);
+  --foreground: oklch(97.837% 0.0011 202.716);
+  --muted: oklch(64.881% 0.01467 262.411);
+  --primary: oklch(0.5638 0.15 260);
+  --primary-foreground: oklch(14.402% 0.0028 247.234);
+  --border: oklch(1 0 0 / 14%);
 }
 
 @media (min-width: 640px) {
@@ -25,6 +36,8 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-border: var(--border);
+
+  --text-xxs: 0.6875rem;
 }
 
 @layer base {
@@ -46,6 +59,10 @@
 
   html {
     color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 
   body {

@@ -1,0 +1,78 @@
+---
+import { Moon, Sun } from "lucide";
+import MorphIcon from "morphicons/astro";
+import { computeInitialD } from "morphicons/element";
+
+const moonPath = computeInitialD({ icon: Moon });
+---
+
+<button
+  type="button"
+  data-theme-toggle
+  class="-m-1 inline-flex shrink-0 cursor-pointer items-center justify-center p-1 text-muted outline-offset-2 hover:text-foreground focus-visible:outline-1 focus-visible:outline-solid"
+  aria-label="Switch to dark mode"
+>
+  <MorphIcon id="theme-icon" icon={Sun} size={14} reducedMotion="user" />
+</button>
+
+<script is:inline define:vars={{ moonPath }}>
+  if (document.documentElement.classList.contains("dark")) {
+    const button = document.querySelector("[data-theme-toggle]");
+    button?.setAttribute("aria-label", "Switch to light mode");
+    button?.querySelector("path")?.setAttribute("d", moonPath);
+  }
+</script>
+
+<script>
+  import { Moon, Sun } from "lucide";
+  import { defineMorphIcon, type MorphIconElement } from "morphicons/element";
+  import { readStoredTheme, systemTheme, themeColors, themeStorageKey, type Theme } from "../theme";
+
+  defineMorphIcon();
+
+  const currentTheme = (): Theme =>
+    document.documentElement.classList.contains("dark") ? "dark" : "light";
+
+  const button = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+  const icon = document.querySelector<MorphIconElement>("#theme-icon");
+
+  if (button && icon) {
+    const applyTheme = (theme: Theme) => {
+      const root = document.documentElement;
+      root.classList.toggle("dark", theme === "dark");
+      root.style.colorScheme = theme;
+      document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute("content", themeColors[theme]);
+      button.setAttribute(
+        "aria-label",
+        theme === "dark" ? "Switch to light mode" : "Switch to dark mode",
+      );
+    };
+
+    const paintIcon = (theme: Theme) => {
+      icon.morphTo(theme === "dark" ? Moon : Sun);
+    };
+
+    icon.set(currentTheme() === "dark" ? Moon : Sun);
+
+    button.addEventListener("click", () => {
+      const theme: Theme = currentTheme() === "dark" ? "light" : "dark";
+      try {
+        localStorage.setItem(themeStorageKey, theme);
+      } catch {
+        // Storage can throw in private mode; the choice still applies for this view.
+      }
+      applyTheme(theme);
+      paintIcon(theme);
+    });
+
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+      if (readStoredTheme()) return;
+      const theme = systemTheme();
+      if (theme === currentTheme()) return;
+      applyTheme(theme);
+      paintIcon(theme);
+    });
+  }
+</script>

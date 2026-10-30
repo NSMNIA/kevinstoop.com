@@ -2,6 +2,7 @@
 import { Font } from "astro:assets";
 import "../styles/global.css";
 import Footer from "../components/footer.astro";
+import ThemeInit from "../components/theme-init.astro";
 
 interface Props {
   title?: string;
@@ -23,8 +24,11 @@ const {
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <Font cssVariable="--font-sans" preload={[{ style: "normal", subset: "latin" }]} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f7f8f8" />
+    <ThemeInit />
+    <Font cssVariable="--font-sans" preload={[{ style: "normal", subset: "latin" }]} />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Kevin Stoop" />
@@ -38,8 +42,6 @@ const {
       />
     )}
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
-    <meta name="color-scheme" content="light" />
-    <meta name="theme-color" content="#f7f8f8" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.png" sizes="512x512" />

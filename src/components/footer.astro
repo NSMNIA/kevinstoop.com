@@ -1,15 +1,22 @@
+---
+import ThemeToggle from "./theme-toggle.astro";
+---
+
 <script is:inline>
   const main = document.querySelector("main");
   main.parentElement.style.setProperty("--fade-count", main.childElementCount);
 </script>
-<footer class="mt-auto flex items-center justify-between pt-19 text-[11px] text-muted" data-fade>
+<footer class="mt-auto flex items-center justify-between pt-19 text-xxs text-muted" data-fade>
   <div class="flex items-center gap-1.25">
-    <span class="inline-block size-1 animate-pulse rounded-full bg-muted" aria-hidden="true"></span>
+    <span
+      class="inline-block size-1 animate-pulse rounded-full bg-primary"
+      aria-hidden="true"
+    ></span>
     <span class="invisible tabular-nums" data-local-time>
       00:00:00 local
     </span>
   </div>
-  <span>Kevin Stoop</span>
+  <ThemeToggle />
 </footer>
 <script>
   const el = document.querySelector("[data-local-time]");
@@ -19,6 +26,7 @@
       minute: "2-digit",
       second: "2-digit",
       hourCycle: "h23",
+      timeZone: "Europe/Amsterdam",
     });
 
     const tick = () => {
