@@ -1,0 +1,44 @@
+---
+import Page from "../../layouts/page.astro";
+import { formatDate } from "../../lib/date";
+import { getPosts } from "../../lib/posts";
+
+const posts = await getPosts();
+
+const canonical = new URL("/writing", Astro.site ?? "https://kevinstoop.com").href;
+---
+
+<Page
+  title="Writing — Kevin Stoop"
+  description="Notes on frontend development, performance, and the details that make an interface feel right."
+  canonical={canonical}
+>
+  <h1 class="text-balance wght-500 dark:wght-450" data-fade>
+    Writing
+  </h1>
+  {posts.length === 0 ? (
+    <p
+      class="leading-relaxed text-pretty text-muted wght-450 dark:wght-400"
+      data-fade
+      data-fade-kind="body"
+    >
+      Nothing published yet.
+    </p>
+  ) : (
+    posts.map((post) => (
+      <article data-fade data-fade-kind="body">
+        <a class="group flex flex-col gap-1" href={`/writing/${post.id}`}>
+          <time class="text-xxs text-muted" datetime={post.data.pubDate.toISOString()}>
+            {formatDate(post.data.pubDate)}
+          </time>
+          <h2 class="text-balance text-foreground decoration-primary wght-500 group-hover:underline group-hover:underline-offset-2 dark:wght-450">
+            {post.data.title}
+          </h2>
+          <p class="leading-relaxed text-pretty text-muted wght-450 dark:wght-400">
+            {post.data.description}
+          </p>
+        </a>
+      </article>
+    ))
+  )}
+</Page>

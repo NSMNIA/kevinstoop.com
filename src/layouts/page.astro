@@ -9,6 +9,7 @@ interface Props {
   description?: string;
   canonical?: string;
   robots?: string;
+  ogType?: "website" | "article";
 }
 
 const site = Astro.site?.origin ?? "https://kevinstoop.com";
@@ -18,6 +19,7 @@ const {
   description = "I'm Kevin, a software engineer passionate about frontend development, performance, and bringing thoughtful digital products and experiences to life.",
   canonical = site,
   robots,
+  ogType = "website",
 } = Astro.props;
 ---
 
@@ -54,7 +56,7 @@ const {
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Kevin Stoop — Software Engineer" />
     <meta property="og:url" content={canonical} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="Kevin Stoop" />
     <meta property="og:locale" content="en_US" />
 
@@ -84,6 +86,7 @@ const {
         ]
       }
     </script>
+    <slot name="head" />
   </head>
   <body class="mx-auto flex min-h-svh max-w-140 flex-col px-[clamp(1.25rem,6vw,3.75rem)] pt-[calc(var(--head-top)+0.188rem)] pb-[clamp(1.75rem,5vh,2.75rem)]">
     <main class="flex flex-col gap-4">

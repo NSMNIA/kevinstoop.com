@@ -1,0 +1,14 @@
+---
+interface Props {
+  label?: string;
+}
+
+const { label = "Note" } = Astro.props;
+---
+
+<aside class="border-l border-primary/40 pl-4 text-foreground">
+  <p class="text-xxs text-muted">{label}</p>
+  <div class="mt-1 leading-relaxed text-pretty wght-450 dark:wght-400">
+    <slot />
+  </div>
+</aside>

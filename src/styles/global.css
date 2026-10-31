@@ -122,3 +122,62 @@
     }
   }
 }
+
+@layer components {
+  .entry {
+    @apply flex flex-col gap-4 leading-relaxed text-pretty text-muted wght-450 dark:wght-400;
+  }
+
+  .entry :is(p, ul, ol, pre, blockquote, h2, h3, h4) {
+    margin: 0;
+  }
+
+  .entry :is(h2, h3, h4, strong) {
+    @apply text-balance text-foreground wght-500 dark:wght-450;
+  }
+
+  .entry h2 {
+    @apply mt-4;
+  }
+
+  .entry a {
+    @apply text-foreground decoration-primary hover:underline hover:underline-offset-2;
+  }
+
+  .entry :is(ul, ol) {
+    @apply flex flex-col gap-1 pl-5;
+  }
+
+  .entry ul {
+    @apply list-disc;
+  }
+
+  .entry ol {
+    @apply list-decimal;
+  }
+
+  .entry blockquote {
+    @apply border-l border-primary/40 pl-4 text-foreground;
+  }
+
+  .entry :not(pre) > code {
+    @apply text-[0.9em] text-foreground;
+  }
+
+  .entry pre {
+    @apply overflow-x-auto rounded-md px-4 py-3 text-[0.8125rem] leading-relaxed;
+  }
+
+  html.dark .astro-code,
+  html.dark .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
+
+  .entry img {
+    @apply h-auto max-w-full;
+  }
+}
