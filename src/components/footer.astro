@@ -13,8 +13,9 @@ import ThemeToggle from "./theme-toggle.astro";
       aria-hidden="true"
     ></span>
     <span class="invisible tabular-nums" data-local-time>
-      00:00:00 local
+      00:00:00
     </span>
+    <span>Ambt Delden, NL</span>
   </div>
   <ThemeToggle />
 </footer>
@@ -30,7 +31,7 @@ import ThemeToggle from "./theme-toggle.astro";
     });
 
     const tick = () => {
-      el.textContent = `${format.format(new Date())} local`;
+      el.textContent = format.format(new Date());
       el.classList.remove("invisible");
       window.setTimeout(tick, 1000 - (Date.now() % 1000));
     };

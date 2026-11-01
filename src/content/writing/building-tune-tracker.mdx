@@ -1,0 +1,80 @@
+---
+title: Building Tune Tracker
+description: How I built Tune Tracker, moved the backend from Next.js to NestJS, and use Cache Components on the site and in the app.
+pubDate: 2026-11-01
+---
+
+I started [Tune Tracker](https://tune-tracker.com/) because I kept missing new releases from artists I follow on Spotify. I log over 150,000 minutes a year on Spotify Wrapped. Release Radar was full of artists I had played once, and I could not choose to skip remixes and live versions.
+
+I was building it for myself. When I showed it to my girlfriend, she wanted it too, and she thought other people would want it. I made it public after that. It notifies me when a followed artist releases something, and it can add that release to a playlist while skipping remixes and live versions. The longer version of how it started is [Why I built Tune Tracker](https://tune-tracker.com/blog/features/why-i-built-tune-tracker).
+
+## Starting with Next.js
+
+The first version was one [Next.js](https://nextjs.org/) app. It rendered the pages. API routes called Spotify, ran the business logic, ran the cron jobs, sent the notifications, and read and wrote the database.
+
+I could ship a feature without a second service. The app then picked up more business logic and more integrations, and I started on native apps for iOS and Android. I wanted those apps on the same backend as the site, and I did not want them calling Next.js route handlers.
+
+## Moving to NestJS
+
+I rewrote the backend in [NestJS](https://nestjs.com/) instead of moving the existing route handlers over. I had considered Go and Rust. I did not know either well enough to maintain the API, so I stayed with JavaScript, and NestJS is how I organized it.
+
+I rebuilt the endpoints and the business logic while the site was already in use. That was more work than extracting the old route handlers.
+
+The pieces in production:
+
+- **Next.js.** Two different apps, one for the public website and one for the authenticated app.
+- **NestJS.** Handles the API and the business logic.
+- **[Drizzle ORM](https://orm.drizzle.team/).** Defines the schema and runs the queries.
+- **PostgreSQL.** Stores the data.
+
+The native iOS and Android apps are still in development. When they ship, they will use this API, so the business logic stays in one place.
+
+On Android today, the site is a Progressive Web App packaged as a [Trusted Web Activity](https://developer.chrome.com/docs/android/trusted-web-activity) with [Bubblewrap](https://github.com/GoogleChromeLabs/bubblewrap). That put Tune Tracker on the Play Store before a separate Android app was finished. A Trusted Web Activity shows the site in Chrome, so this build still runs the Next.js app.
+
+### Was the rewrite worth it?
+
+A rewrite of a working backend takes time that would otherwise go to features, and it can break behavior people already rely on. I would not start one without a reason.
+
+I can trace an endpoint in NestJS without also tracing the page that calls it. The Next.js app does not keep a second copy of the API types. I generate the client from the API definition, so the calls and the TypeScript types come from that definition.
+
+The Trusted Web Activity does not need a separate API, because it is the website. The NestJS API is there for the native apps, and the site already uses the generated client.
+
+## Cache Components
+
+After the split, Next.js was the frontend. When Cache Components became stable, I started using them there.
+
+The public site uses the [`use cache`](https://nextjs.org/docs/app/api-reference/directives/use-cache) directive for data that is the same for every visitor. [`cacheLife()`](https://nextjs.org/docs/app/api-reference/functions/cacheLife) sets how long that result stays valid. [`cacheTag()`](https://nextjs.org/docs/app/api-reference/functions/cacheTag) names the entry, so I can invalidate it when the data changes.
+
+A shared read looks like this. The profile and the tag depend on the data.
+
+```tsx
+import { cacheLife, cacheTag } from "next/cache";
+
+// Public site. Profile and tag depend on the data.
+async function getSharedCatalog() {
+  "use cache";
+  cacheLife("hours");
+  cacheTag("catalog");
+  // ...
+}
+```
+
+The app uses [`use cache: private`](https://nextjs.org/docs/app/api-reference/directives/use-cache-private) for followed artists, the subscription, and listening statistics. Those belong to the signed-in user.
+
+```tsx
+// App. This read belongs to the signed-in user.
+async function loadAccount() {
+  "use cache: private";
+  // ...cookies or the session, then this account's data
+}
+```
+
+A `use cache` result is reused across requests. If it stored one account's followed artists, the next request could receive them. The private directive can read cookies and headers, and Next.js does not store that result in the server cache for a later request. The client router can keep the rendered output in memory for the stale time from `cacheLife()`, so opening that page again uses the copy in memory. A reload clears that memory.
+
+A `use cache: private` function cannot run inside a `use cache` function, because the outer result is shared across visitors. I put the private read in the part of the page that renders one account. I have to make that split while building the page. A public update invalidates a cache tag. The account's data stays on that request.
+
+## Where Tune Tracker stands
+
+The public website, web application, and the NestJS API are in production. The web application is on the [Play Store](https://play.google.com/store/apps/details?id=com.tune_tracker.app.twa) as a Trusted Web Activity. The native iOS and Android apps are both still in development.
+
+When those apps ship, they will call the NestJS API. The Play Store listing stays the Trusted Web Activity until the native Android app is ready.

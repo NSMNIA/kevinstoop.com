@@ -1,0 +1,80 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import Page from "../../layouts/page.astro";
+import { formatDate } from "../../lib/date";
+import { getPosts } from "../../lib/posts";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<"writing">;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const canonical = new URL(`/writing/${post.id}`, Astro.site ?? "https://kevinstoop.com").href;
+const modified = post.data.updatedDate ?? post.data.pubDate;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.pubDate.toISOString(),
+  dateModified: modified.toISOString(),
+  author: {
+    "@type": "Person",
+    name: "Kevin Stoop",
+    url: "https://kevinstoop.com",
+  },
+  mainEntityOfPage: canonical,
+};
+---
+
+<Page
+  title={`${post.data.title} — Kevin Stoop`}
+  description={post.data.description}
+  canonical={canonical}
+  ogType="article"
+>
+  <Fragment slot="head">
+    <meta property="article:published_time" content={post.data.pubDate.toISOString()} />
+    <meta property="article:modified_time" content={modified.toISOString()} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(jsonLd).replaceAll("<", "\\u003c")}
+    />
+  </Fragment>
+  <p data-fade>
+    <a
+      class="text-xxs text-muted decoration-primary hover:text-foreground hover:underline hover:underline-offset-2"
+      href="/writing"
+    >
+      Writing
+    </a>
+  </p>
+  <h1 class="text-balance wght-500 dark:wght-450" data-fade>
+    {post.data.title}
+  </h1>
+  <p class="text-xxs text-muted" data-fade data-fade-kind="body">
+    <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+    {post.data.updatedDate && (
+      <>
+        {" · Updated "}
+        <time datetime={post.data.updatedDate.toISOString()}>
+          {formatDate(post.data.updatedDate)}
+        </time>
+      </>
+    )}
+  </p>
+  <div class="entry" data-fade data-fade-kind="body">
+    <Content />
+  </div>
+</Page>

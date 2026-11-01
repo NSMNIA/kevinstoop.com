@@ -1,6 +1,10 @@
 ---
 import Page from "../layouts/page.astro";
+import PostLink from "../components/post-link.astro";
 import IoIcon from "../icons/io.svg";
+import { getPosts } from "../lib/posts";
+
+const posts = (await getPosts()).slice(0, 3);
 ---
 
 <Page>
@@ -92,4 +96,15 @@ import IoIcon from "../icons/io.svg";
     </a>
     .
   </p>
+  <h2 class="mt-8 text-balance wght-500 dark:wght-450" data-fade data-fade-kind="body">
+    <a
+      class="text-foreground decoration-primary hover:underline hover:underline-offset-2"
+      href="/writing"
+    >
+      Writing
+    </a>
+  </h2>
+  {posts.map((post) => (
+    <PostLink post={post} level="h3" />
+  ))}
 </Page>

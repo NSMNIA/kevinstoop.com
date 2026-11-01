@@ -1,0 +1,38 @@
+---
+import Page from "../../layouts/page.astro";
+import PostLink from "../../components/post-link.astro";
+import { getPosts } from "../../lib/posts";
+
+const posts = await getPosts();
+
+const canonical = new URL("/writing", Astro.site ?? "https://kevinstoop.com").href;
+---
+
+<Page
+  title="Writing — Kevin Stoop"
+  description="Notes on frontend development, performance, and the details that make an interface feel right."
+  canonical={canonical}
+>
+  <p data-fade>
+    <a
+      class="text-xxs text-muted decoration-primary hover:text-foreground hover:underline hover:underline-offset-2"
+      href="/"
+    >
+      Home
+    </a>
+  </p>
+  <h1 class="text-balance wght-500 dark:wght-450" data-fade>
+    Writing
+  </h1>
+  {posts.length === 0 ? (
+    <p
+      class="leading-relaxed text-pretty text-muted wght-450 dark:wght-400"
+      data-fade
+      data-fade-kind="body"
+    >
+      Nothing published yet.
+    </p>
+  ) : (
+    posts.map((post) => <PostLink post={post} />)
+  )}
+</Page>
