@@ -12,13 +12,14 @@ const Title = level;
 ---
 
 <article data-fade data-fade-kind="body">
-  <a class="group flex flex-col gap-1" href={`/writing/${post.id}`}>
+  <a
+    class="group flex flex-col gap-1 ring-offset-background outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+    href={`/writing/${post.id}`}
+  >
     <time class="text-xxs text-muted" datetime={post.data.pubDate.toISOString()}>
       {formatDate(post.data.pubDate)}
     </time>
-    <Title
-      class="text-balance text-foreground decoration-primary wght-500 group-hover:underline group-hover:underline-offset-2 dark:wght-450"
-    >
+    <Title class="text-balance text-foreground decoration-primary wght-500 group-hover:underline group-hover:underline-offset-2 dark:wght-450">
       {post.data.title}
     </Title>
     <p class="leading-relaxed text-pretty text-muted wght-450 dark:wght-400">

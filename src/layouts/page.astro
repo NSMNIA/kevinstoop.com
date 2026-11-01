@@ -3,6 +3,7 @@ import { Font } from "astro:assets";
 import "../styles/global.css";
 import Footer from "../components/footer.astro";
 import ThemeInit from "../components/theme-init.astro";
+import { ClientRouter } from "astro:transitions";
 
 interface Props {
   title?: string;
@@ -21,9 +22,10 @@ const {
   robots,
   ogType = "website",
 } = Astro.props;
+
 ---
 
-<html lang="en">
+<html lang="en" transition:name="root" transition:animate="none">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -87,6 +89,7 @@ const {
         ]
       }
     </script>
+    <ClientRouter />
     <slot name="head" />
   </head>
   <body class="mx-auto flex min-h-svh max-w-140 flex-col px-[clamp(1.25rem,6vw,3.75rem)] pt-[calc(var(--head-top)+0.188rem)] pb-[clamp(1.75rem,5vh,2.75rem)]">

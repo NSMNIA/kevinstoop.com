@@ -3,6 +3,7 @@ import { render, type CollectionEntry } from "astro:content";
 import Page from "../../layouts/page.astro";
 import { formatDate } from "../../lib/date";
 import { getPosts } from "../../lib/posts";
+import { CornerUpLeft } from "@lucide/astro";
 
 export async function getStaticPaths() {
   const posts = await getPosts();
@@ -53,12 +54,15 @@ const jsonLd = {
     />
   </Fragment>
   <p data-fade>
-    <a
-      class="text-xxs text-muted decoration-primary hover:text-foreground hover:underline hover:underline-offset-2"
-      href="/writing"
-    >
-      Writing
-    </a>
+    <p data-fade>
+      <a
+        class="relative inline-flex items-center gap-1 text-xxs text-muted decoration-primary ring-offset-background outline-hidden transition-colors hover:brightness-120 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+        href="/writing"
+      >
+        <CornerUpLeft class="size-3" aria-hidden="true" />
+        Writing
+      </a>
+    </p>
   </p>
   <h1 class="text-balance wght-500 dark:wght-450" data-fade>
     {post.data.title}

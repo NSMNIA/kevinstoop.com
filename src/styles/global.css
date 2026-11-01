@@ -142,7 +142,7 @@
   }
 
   .entry a {
-    @apply text-foreground decoration-primary hover:underline hover:underline-offset-2;
+    @apply text-foreground decoration-primary ring-offset-background outline-hidden hover:underline hover:underline-offset-2 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
   }
 
   .entry :is(ul, ol) {
@@ -173,7 +173,7 @@
   }
 
   .entry pre {
-    @apply overflow-x-auto rounded-md px-4 py-3 text-[0.8125rem] leading-relaxed;
+    @apply overflow-x-auto rounded-md px-4 py-3 text-[0.8125rem] leading-relaxed ring-offset-background outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
   }
 
   html.dark .astro-code,

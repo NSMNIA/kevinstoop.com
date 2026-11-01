@@ -2,6 +2,7 @@
 import Page from "../../layouts/page.astro";
 import PostLink from "../../components/post-link.astro";
 import { getPosts } from "../../lib/posts";
+import { CornerUpLeft } from "@lucide/astro";
 
 const posts = await getPosts();
 
@@ -15,9 +16,10 @@ const canonical = new URL("/writing", Astro.site ?? "https://kevinstoop.com").hr
 >
   <p data-fade>
     <a
-      class="text-xxs text-muted decoration-primary hover:text-foreground hover:underline hover:underline-offset-2"
+      class="relative inline-flex items-center gap-1 text-xxs text-muted decoration-primary ring-offset-background outline-hidden transition-colors hover:brightness-120 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       href="/"
     >
+      <CornerUpLeft class="size-3" aria-hidden="true" />
       Home
     </a>
   </p>
