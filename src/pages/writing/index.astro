@@ -1,6 +1,6 @@
 ---
 import Page from "../../layouts/page.astro";
-import { formatDate } from "../../lib/date";
+import PostLink from "../../components/post-link.astro";
 import { getPosts } from "../../lib/posts";
 
 const posts = await getPosts();
@@ -13,6 +13,14 @@ const canonical = new URL("/writing", Astro.site ?? "https://kevinstoop.com").hr
   description="Notes on frontend development, performance, and the details that make an interface feel right."
   canonical={canonical}
 >
+  <p data-fade>
+    <a
+      class="text-xxs text-muted decoration-primary hover:text-foreground hover:underline hover:underline-offset-2"
+      href="/"
+    >
+      Home
+    </a>
+  </p>
   <h1 class="text-balance wght-500 dark:wght-450" data-fade>
     Writing
   </h1>
@@ -25,20 +33,6 @@ const canonical = new URL("/writing", Astro.site ?? "https://kevinstoop.com").hr
       Nothing published yet.
     </p>
   ) : (
-    posts.map((post) => (
-      <article data-fade data-fade-kind="body">
-        <a class="group flex flex-col gap-1" href={`/writing/${post.id}`}>
-          <time class="text-xxs text-muted" datetime={post.data.pubDate.toISOString()}>
-            {formatDate(post.data.pubDate)}
-          </time>
-          <h2 class="text-balance text-foreground decoration-primary wght-500 group-hover:underline group-hover:underline-offset-2 dark:wght-450">
-            {post.data.title}
-          </h2>
-          <p class="leading-relaxed text-pretty text-muted wght-450 dark:wght-400">
-            {post.data.description}
-          </p>
-        </a>
-      </article>
-    ))
+    posts.map((post) => <PostLink post={post} />)
   )}
 </Page>

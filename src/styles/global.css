@@ -30,6 +30,7 @@
 
 @theme inline {
   --font-sans: var(--font-inter);
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
@@ -161,7 +162,14 @@
   }
 
   .entry :not(pre) > code {
-    @apply text-[0.9em] text-foreground;
+    @apply font-mono text-[0.9em] text-foreground;
+    font-feature-settings: normal;
+  }
+
+  .entry pre,
+  .entry pre code {
+    @apply font-mono;
+    font-feature-settings: normal;
   }
 
   .entry pre {

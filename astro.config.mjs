@@ -21,6 +21,14 @@ export default defineConfig({
       styles: ["normal"],
       subsets: ["latin"],
     },
+    {
+      provider: fontProviders.fontsource(),
+      name: "Geist Mono",
+      cssVariable: "--font-geist-mono",
+      weights: ["100 900"],
+      styles: ["normal"],
+      subsets: ["latin"],
+    },
   ],
   site: "https://kevinstoop.com",
   markdown: {
